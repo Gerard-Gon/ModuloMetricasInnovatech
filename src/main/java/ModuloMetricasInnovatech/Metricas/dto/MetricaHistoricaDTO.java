@@ -9,4 +9,6 @@ public class MetricaHistoricaDTO {
     private String nombreKpi;
     private Float valorCalculado;
     private LocalDate fechaCalculo;
+
+    private Integer proyectoId;
 }

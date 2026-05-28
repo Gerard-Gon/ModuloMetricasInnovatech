@@ -31,5 +31,8 @@ public class MetricaHistorica {
 
     @Column(name = "fecha_calculo", nullable = false)
     private LocalDate fechaCalculo;
+
+    @Column(name = "proyecto_id", nullable = true) // Puede ser null si hay métricas globales
+    private Integer proyectoId;
     
 }
