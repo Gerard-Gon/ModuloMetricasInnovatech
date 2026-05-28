@@ -6,6 +6,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authorization.AuthorizationDecision;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
@@ -21,7 +23,7 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable())
             .cors(cors -> cors.disable()) 
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/v1/health").permitAll() // Permite el health check de Render
+                .requestMatchers("/actuator/**").permitAll() // Permite el health check de Render
                 .anyRequest().access((authentication, context) -> {
                     String cabeceraSecreta = context.getRequest().getHeader("X-Gateway-Secret");
                     boolean headerGateway = secretoCompartido != null && secretoCompartido.equals(cabeceraSecreta);
@@ -29,5 +31,10 @@ public class SecurityConfig {
                 })
             )
             .build();
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 }
